@@ -22,3 +22,6 @@ class Course(models.Model):
     image = models.ImageField(upload_to = 'courses/images', verbose_name='Imagem', blank=True, null=True)
 
     objects = CourseManager() #define o método de pesquisa da tabela
+
+    def __str__(self):
+        return self.name
