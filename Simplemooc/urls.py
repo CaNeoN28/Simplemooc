@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 from .core import urls as core_urls
+from .courses import urls as courses_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', include((core_urls, 'core'), namespace = 'core'))
+
+    path(r'', include((core_urls, 'core'), namespace = 'core')),
+    path(r'cursos/', include((courses_url, 'courses'), namespace = 'courses'))
 ]
