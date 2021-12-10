@@ -1,7 +1,9 @@
 from typing import ContextManager
 from django.http import request
 from django.shortcuts import get_object_or_404, render
+
 from .models import Course #Referencia a tabela Course do BD
+from .forms import ContactCourse #Chamado ao form de contato do app
 
 # Create your views here.
 
@@ -31,7 +33,8 @@ def details(request, slug):
     template_name = 'courses/details.html'
 
     context = {
-        'course' : course
+        'course' : course,
+        'forms' : ContactCourse()
     }
 
     return render(request, template_name, context)

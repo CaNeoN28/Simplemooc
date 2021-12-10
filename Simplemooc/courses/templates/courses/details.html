@@ -35,4 +35,25 @@
 				</div>
 			</div>
 		</div>
+		<div class="pure-g-r content-ribbon">
+			<div class="pure-u-1">
+				<h3>
+					Tire suas dúvidas!
+				</h3>
+				<form class="pure-form pure-form-aligned" method="post">
+					{%csrf_token%}
+					<fieldset>
+						{%for field in forms%}
+							<div class="pure-control-group">
+								{{field.label_tag}}
+								{{field}}
+							</div>
+						{%endfor%}
+						<div class="pure-controls">
+							<button type='submit' class="pure-button pure-button-primary">Enviar</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
 {%endblock%}
