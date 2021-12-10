@@ -30,13 +30,22 @@ def details(request, pk):
 
 def details(request, slug):
     course = get_object_or_404(Course, slug = slug)
+    context = {}
+
+    if request.method == 'POST':
+        form = ContactCourse(request.POST)
+        if form.is_valid(): #Verifica se o formulário foi dvidamente preenchido
+            context['is_valid'] = True #Auxiliar para o template
+            for field in form:
+                print(field.label, field.data) #Retorna os valores no terminal
+            form = ContactCourse()
+    else:
+        form = ContactCourse()
+
     template_name = 'courses/details.html'
 
-    context = {
-        'course' : course,
-        'forms' : ContactCourse()
-    }
-
+    context['forms'] = form
+    context['course'] = course
     return render(request, template_name, context)
 
     
