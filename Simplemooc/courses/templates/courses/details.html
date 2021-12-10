@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{%load static%}
 {%block content%}
 		<div class="splash">
 			<div class="pure-g-r">
@@ -22,6 +23,15 @@
 				<div class="l-box">
 					<h4 class="content-subhead">	</h4>
 					<p>{{course.about}}</p>
+				</div>
+			</div>
+			<div class="pure-u-2-3">
+				<div class="r-box">
+                    {% if course.image%}
+                    <img src="{{course.image.url}}" alt="{{course}}"></a>
+                    {% else%}
+                    <img src="{%static 'img/placeholder.png'%}">
+                    {%endif%}
 				</div>
 			</div>
 		</div>

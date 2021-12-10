@@ -1,6 +1,6 @@
 from typing import ContextManager
 from django.http import request
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Course #Referencia a tabela Course do BD
 
 # Create your views here.
@@ -15,7 +15,8 @@ def index(request):
     return render(request, template_name, context)
 
 def details(request, pk):
-    course = Course.objects.get(pk = pk) #Filtra o curso com o atributo passado (pk)
+    #course = Course.objects.get(pk = pk) #Filtra o curso com o atributo passado (pk), retorna uma exceção desagradável se não houver correspondência
+    course = get_object_or_404(Course, pk = pk) #Retorna um 404 se não houver correspondência
     template_name = 'courses/details.html'
 
     context = {
