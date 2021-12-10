@@ -27,6 +27,9 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return (self.slug) #retorna o endereço dos cursos dos slugs correspondentes
+
     class Meta:
         verbose_name = 'Curso'
         verbose_name_plural = 'Cursos'

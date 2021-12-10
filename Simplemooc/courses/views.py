@@ -14,9 +14,20 @@ def index(request):
     }
     return render(request, template_name, context)
 
+'''
 def details(request, pk):
     #course = Course.objects.get(pk = pk) #Filtra o curso com o atributo passado (pk), retorna uma exceção desagradável se não houver correspondência
     course = get_object_or_404(Course, pk = pk) #Retorna um 404 se não houver correspondência
+    template_name = 'courses/details.html'
+
+    context = {
+        'course' : course
+    }
+
+    return render(request, template_name, context)'''
+
+def details(request, slug):
+    course = get_object_or_404(Course, slug = slug)
     template_name = 'courses/details.html'
 
     context = {
