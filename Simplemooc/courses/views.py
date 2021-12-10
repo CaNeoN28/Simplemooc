@@ -36,8 +36,11 @@ def details(request, slug):
         form = ContactCourse(request.POST)
         if form.is_valid(): #Verifica se o formulário foi dvidamente preenchido
             context['is_valid'] = True #Auxiliar para o template
-            for field in form:
-                print(field.label, field.data) #Retorna os valores no terminal
+
+            '''for field in form:
+                print(field.label, field.data) #Retorna os valores no terminal'''
+
+            form.send_mail(course)#Método para enviar um email para o terminal
             form = ContactCourse()
     else:
         form = ContactCourse()
@@ -46,6 +49,7 @@ def details(request, slug):
 
     context['forms'] = form
     context['course'] = course
+
     return render(request, template_name, context)
 
     
