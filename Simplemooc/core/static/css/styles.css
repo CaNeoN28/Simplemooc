@@ -73,3 +73,8 @@ body .primary-button {
     padding: 1em;
     font-size: 80%;
 }
+
+ul.breadcrumb {
+    padding: : 10px 16px;
+    list-style: none;
+}

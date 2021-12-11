@@ -22,3 +22,20 @@ class RegisterForm(UserCreationForm):
             user.save()
         
         return user
+
+class EditAccountForm(forms.ModelForm):
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        query_set = User.objects.filter(email=email).exclude(pk = self.instance.pk)
+        #Verifica se o email ja foi utilizado, com exceção ao do usuário
+        
+        if query_set.exists(): #O .exists é necessário
+            raise forms.ValidationError('Este email ja está sendo utilizado')
+        
+        return email
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+

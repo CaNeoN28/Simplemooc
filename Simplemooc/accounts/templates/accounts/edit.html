@@ -1,0 +1,24 @@
+{% extends 'accounts/dashboard.html' %}
+{%block breadcrumb%}
+	{{block.super}}
+	<li>/</li>
+	<li><a href="{%url 'accounts:edit'%}">Editar Conta</a></li>
+{%endblock%}
+
+{%block dashboard_content%}
+	<form class="pure-form pure-form-stacked">
+		<fieldset>
+			{{form.non_field_erros}}
+			{%for field in form%}
+			<div class="pure-control-group">
+				{{field.label_tag}}
+				{{field}}
+				{{field_errors}}
+			</div>
+			{%endfor%}
+			<div class="pure-controls">
+				<button class="pure-button pure-button-primary" type="submit">Salvar</button>
+			</div>
+		</fieldset>
+	</form>
+{%endblock%}

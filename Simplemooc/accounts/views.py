@@ -2,7 +2,8 @@ from django.shortcuts import redirect, render
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm
+from django.utils.translation import templatize
+from .forms import EditAccountForm, RegisterForm
 from django.conf import settings
 
 @login_required #Redireciona para o login se não houver usuário logado
@@ -30,5 +31,14 @@ def register(request):
     context = {
         'form' : form #Classe simples de criação de usuários do Django
     }
+
+    return render(request, template_name, context)
+
+@login_required
+def edit(request):
+    template_name = 'accounts/edit.html'
+    form = EditAccountForm()
+    context = {}
+    context['form'] = form
 
     return render(request, template_name, context)
