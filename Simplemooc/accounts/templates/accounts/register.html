@@ -2,7 +2,7 @@
 {%block content%}
 <div class="pure-g-r content-ribbon">
 	<div class="pure-u-1">
-		<h2>Informe seus dados</h2>
+		<h2>Informe seus dados para o cadastro</h2>
 		<form class="pure-form pure-form-aligned" method='post'>
 			{%csrf_token%}
 			<fieldset>
@@ -19,8 +19,7 @@
 				</div>
 			</fieldset>
 			<p>
-				Não é cadastrado? <a href="{%url 'accounts:register'%}">Cadastre-se</a> <br>
-				Esqueceu a senha? <a href="">Nova senha</a> <br>
+				Ja está cadastrado? <a href="{% url 'accounts:login'%}">Login</a> <br>
 			</p>
 		</form>
 	</div>
