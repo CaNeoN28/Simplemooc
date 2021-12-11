@@ -1,8 +1,14 @@
 from django.shortcuts import redirect, render
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.conf import settings
+
+@login_required #Redireciona para o login se não houver usuário logado
+def dashboard(request):
+    template_name = 'accounts/dashboard.html'
+    return render(request, template_name)
 
 def register(request):
     template_name = 'accounts/register.html'
@@ -19,7 +25,7 @@ def register(request):
             return redirect('core:home') #Redireciona para a página inicial
     else:
         #form = UserCreationForm()
-        form = RegisterForm()
+        form = RegisterForm() 
 
     context = {
         'form' : form #Classe simples de criação de usuários do Django

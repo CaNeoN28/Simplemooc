@@ -20,6 +20,7 @@
 
                 {%if user.is_authenticated%} <!-- Verifica se o usuário é autenticado, ou seja, não anônimo
                                                   OBS : Não é necessário adicionar ao contexto -->
+                <li><a href="{% url 'accounts:dashboard'%}">Painel</a></li>
                 <li><a href="{% url 'accounts:logout'%}">Sair</a></li>
 
                 {%else%}

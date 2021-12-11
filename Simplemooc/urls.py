@@ -26,5 +26,5 @@ urlpatterns = [
 
     path(r'', include((core_urls, 'core'), namespace = 'core')),
     path(r'cursos/', include((course_urls, 'courses'), namespace = 'courses')),
-    path(r'contas/', include((accounts_urls, 'accounrs'), namespace = 'accounts'))
+    path(r'conta/', include((accounts_urls, 'accounts'), namespace = 'accounts'))
 ]
