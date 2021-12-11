@@ -139,3 +139,8 @@ EMAIL_HOST_PASSWORD = 'senha'
 EMAIL_PORT = 587
 
 CONTACT_EMAIL = 'contato@simplemooc.com'
+
+#LOGIN
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = '/início'
+#LOGOUT_URL = 'accounts:logout'
