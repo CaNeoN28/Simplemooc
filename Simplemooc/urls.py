@@ -19,10 +19,12 @@ from django.urls.conf import include
 
 from .core import urls as core_urls
 from .courses import urls as course_urls
+from .accounts import urls as accounts_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path(r'', include((core_urls, 'core'), namespace = 'core')),
-    path(r'cursos/', include((course_urls, 'courses'), namespace = 'courses'))
+    path(r'cursos/', include((course_urls, 'courses'), namespace = 'courses')),
+    path(r'contas/', include((accounts_urls, 'accounrs'), namespace = 'accounts'))
 ]
