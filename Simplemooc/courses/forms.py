@@ -2,6 +2,8 @@ from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
 
+from Simplemooc.core.mail import send_mail_template
+
 class ContactCourse(forms.Form):
     name = forms.CharField(label='Nome', max_length=100)
     email = forms.EmailField(label='Email')
@@ -20,6 +22,7 @@ class ContactCourse(forms.Form):
             'message': self.cleaned_data['message']
         } #Atribui os dados do email
 
-        message = message % context #Formata os dados do email
+        template_name = 'courses\mail.html'
 
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_EMAIL])
+        send_mail_template(subject, template_name, context, [settings.CONTACT_EMAIL]) 
+        #settings.CONTACT_EMAIL deve estar entre colchetes, a lista de recipientes é, bom, uma lista
