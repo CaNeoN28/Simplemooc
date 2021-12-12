@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
@@ -49,6 +50,24 @@ def edit(request):
     else:
         form = EditAccountForm(instance = request.user)
 
+    context['form'] = form
+
+    return render(request, template_name, context)
+
+@login_required
+def edit_password(request):
+    template_name = 'accounts/edit_password.html'
+    context = {}
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(data = request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            context['sucess'] = True
+
+    else:
+        form = PasswordChangeForm(user=request.user)
+    
     context['form'] = form
 
     return render(request, template_name, context)
