@@ -6,14 +6,18 @@
 {%endblock%}
 
 {%block dashboard_content%}
-	<form class="pure-form pure-form-stacked">
+	<form class="pure-form pure-form-stacked" method="post">
+		{% csrf_token %}
+		{%if sucess%}
+		<p>Os dados foram alterados com sucesso</p>
+		{%endif%}
 		<fieldset>
 			{{form.non_field_erros}}
 			{%for field in form%}
 			<div class="pure-control-group">
 				{{field.label_tag}}
 				{{field}}
-				{{field_errors}}
+				{{field.errors}}
 			</div>
 			{%endfor%}
 			<div class="pure-controls">
