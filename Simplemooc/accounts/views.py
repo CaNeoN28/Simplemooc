@@ -1,11 +1,15 @@
-from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import redirect, render
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.shortcuts import get_object_or_404, redirect, render
 #from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import templatize
-from .forms import EditAccountForm, RegisterForm
+
+from Simplemooc.accounts.models import PasswordReset
+from Simplemooc.accounts.utils import generate_hash_key
+from .forms import EditAccountForm, RegisterForm, ResetPassword
 from django.conf import settings
+
+User = get_user_model()
 
 @login_required #Redireciona para o login se não houver usuário logado
 def dashboard(request):
@@ -36,6 +40,27 @@ def register(request):
         'form' : form #Classe simples de criação de usuários do Django
     }
 
+    return render(request, template_name, context)
+
+def reset_password(request):
+    template_name = 'accounts/reset.html'
+    context = {}
+    form = ResetPassword(request.POST or None) # Mesma coisa que os outros, só que com menos linhas
+    if form.is_valid():
+        form.save()
+        context['sucess'] = True
+    context['form'] = form
+    return render(request, template_name, context)
+
+def reset_password_confirm(request, key):
+    template_name = 'accounts/confirm_reset.html'
+    context = {}
+    reset = get_object_or_404(PasswordReset, key = key) # Verifica se há uma solicitação existente
+    form = SetPasswordForm(user=reset.user, data=request.POST or None) # Utiliza do form padrão do Django para resetar senha
+    if form.is_valid():
+        form.save()
+        context['sucess'] = True
+    context['form'] = form
     return render(request, template_name, context)
 
 @login_required

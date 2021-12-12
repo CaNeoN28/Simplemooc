@@ -1,6 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from Simplemooc.core.mail import send_mail_template
+from .utils import generate_hash_key
+from .models import PasswordReset
 from django.forms.widgets import PasswordInput
 #Essas duas linhas são necessárias já que há um modelo personalizado padrão para usuário
 User = get_user_model()
@@ -39,6 +41,31 @@ class EditAccountForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'name', 'email']
+
+class ResetPassword(forms.Form):
+
+    email = forms.EmailField(label='E-Mail')
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email = email).exists():
+            return email
+        raise forms.ValidationError('Não foi encontrado usuário com este email')
+    
+    def save(self):        
+        user = User.objects.get(email = self.cleaned_data['email'])
+        key = generate_hash_key(user.username) # Envia o nome de usuário como argumento
+        reset = PasswordReset(key = key, user = user) 
+        reset.save()
+
+        template_name = 'accounts/email/password_reset.html'
+        subject = 'Criar nova senha no SimpleMOOC'
+        context = {
+            'reset' : reset
+        }
+
+        send_mail_template(subject, template_name, context, [user.email]) # Envia um email para o
+        #usuário que deseja resetar a senha, ainda está no email do terminal
 
 
 #O seguinte trecho é utilizado se o usuário for o padrão do Django

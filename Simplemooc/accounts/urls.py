@@ -11,5 +11,8 @@ urlpatterns = [
     #Mesmo que o anterior, mas não possui um template, apenas redireciona
     path('cadastro/', views.register, name='register'),
     path('editar/', views.edit, name='edit'),
-    path('editar-senha/', views.edit_password, name='edit-password')
+    path('editar-senha/', views.edit_password, name='edit-password'),
+    path('resetar-senha/', views.reset_password, name='reset'),
+    path("confirmar-senha/<key>", views.reset_password_confirm, name="confirm-reset") 
+    # Passa a chave de reset como atributo para a url 
 ]

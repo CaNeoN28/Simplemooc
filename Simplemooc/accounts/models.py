@@ -1,8 +1,12 @@
 import re
+
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, 
 UserManager) # Classe de utilitários 
+from django.conf import settings
+
+from .utils import generate_hash_key
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
@@ -32,3 +36,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
+
+class PasswordReset(models.Model):
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+     verbose_name='Usuário') # Chave estrangeira, referenciando o caminho do usuário padrão
+    key = models.CharField('Chave', unique=True, max_length=100) # Atributo principal
+    created_at = models.DateTimeField('Criado em', auto_now_add=True, blank=True) 
+    confirmed = models.BooleanField('Confirmado?', default=False, blank=True)
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.user, self.key)
+    
+    class Meta:
+        verbose_name = 'Nova Senha'
+        verbose_name = 'Novas Senhas'
+        ordering = ['created_at']
