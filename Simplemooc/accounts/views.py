@@ -49,7 +49,6 @@ def edit(request):
     else:
         form = EditAccountForm(instance = request.user)
 
-    form = EditAccountForm()
     context['form'] = form
 
     return render(request, template_name, context)
