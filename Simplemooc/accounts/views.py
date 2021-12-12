@@ -20,9 +20,12 @@ def register(request):
         form = RegisterForm(request.POST) #Utiliza do form custom com email
         if form.is_valid(): #Verifica se o form é valido
             user = form.save() #Salva os dados em um objeto da tabela
-            user = authenticate(
+
+            # Esse trecho da conflito com um model personalizado para usuário, ao invés disso, var direto para login
+            '''user = authenticate(
                 username = user.username, password = form.cleaned_data['password1']
-            )#Autentica o usuário
+            )#Autentica o usuário'''
+            
             login(request, user)#Automaticamente loga o usuário após o cadastro
             return redirect('core:home') #Redireciona para a página inicial
     else:
