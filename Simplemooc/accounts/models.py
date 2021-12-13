@@ -5,8 +5,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin, 
 UserManager) # Classe de utilitários 
 from django.conf import settings
-
-from .utils import generate_hash_key
+from Simplemooc.courses.models import Course
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
@@ -52,3 +51,30 @@ class PasswordReset(models.Model):
         verbose_name = 'Nova Senha'
         verbose_name = 'Novas Senhas'
         ordering = ['created_at']
+
+class Enrollments(models.Model):
+    STATUS_CHOICES = (
+        (0, 'Pendente'),
+        (1, 'Aprovado'),
+        (2, 'Cancelado'),
+        (3, 'Indisponível')
+    )
+
+    #Esses dois atributos referenciam as duas classes pai, cursos e usuários
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, 
+    related_name = 'enrollments', verbose_name='Usuário')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, 
+    related_name='enrollments', verbose_name='Curso')
+
+    #Inteiro representando opções
+    status = models.IntegerField('Situação', choices=STATUS_CHOICES, default=0, blank=True)
+
+    created_at = models.DateTimeField('Criado em', auto_now_add=True, blank=True)
+
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Inscrição'
+        verbose_name_plural = 'Inscrições'
+        unique_together = (('user', 'course'),)
+        #Essa instrução define que não podera haver o mesmo usuário inscrito no mesmo curso duas vezes
