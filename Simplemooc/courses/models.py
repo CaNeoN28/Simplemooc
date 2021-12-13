@@ -46,9 +46,9 @@ class Enrollments(models.Model):
 
     #Esses dois atributos referenciam as duas classes pai, cursos e usuários
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, 
-    related_name = 'enrollments', verbose_name='Usuário')
+    related_name = 'enrollments_user', verbose_name='Usuário')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, 
-    related_name='enrollments', verbose_name='Curso')
+    related_name='enrollments_course', verbose_name='Curso')
 
     #Inteiro representando opções
     status = models.IntegerField('Situação', choices=STATUS_CHOICES, default=0, blank=True)

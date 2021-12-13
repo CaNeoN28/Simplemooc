@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from Simplemooc.accounts.models import PasswordReset
 from Simplemooc.accounts.utils import generate_hash_key
@@ -73,7 +74,7 @@ def edit(request):
         if form.is_valid():
             form.save()
             form = EditAccountForm(instance = request.user)
-            context['sucess'] = True
+            messages.success(request,'Dados da conta alterados com sucesso')
     
     else:
         form = EditAccountForm(instance = request.user)
@@ -91,7 +92,7 @@ def edit_password(request):
         form = PasswordChangeForm(data = request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            context['sucess'] = True
+            messages.success(request, 'Senha alterada com sucesso')
 
     else:
         form = PasswordChangeForm(user=request.user)

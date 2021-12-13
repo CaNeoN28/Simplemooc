@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Course, Enrollments #Referencia a tabela Course do BD
@@ -61,8 +62,12 @@ def enrollments(request, slug):
     
     if create:
         enrollment.activate()
-    # Ativa a inscrição se ela não foi previamente criada
+        messages.success(request, 'Inscrição realizada com sucesso!')
+    # Ativa a inscrição, e informa ao usuário se ela não foi previamente criada
     
+    else:
+        messages.info(request, 'Você já está inscrito nesse curso')
+
     return redirect('accounts:dashboard')
 
     
