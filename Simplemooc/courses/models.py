@@ -60,6 +60,11 @@ class Enrollments(models.Model):
     def activate(self):
         self.status = 1
         self.save()
+    
+    def is_approved(self):
+        if self.status == 1:
+            return True
+        return False
 
     class Meta:
         verbose_name = 'Inscrição'

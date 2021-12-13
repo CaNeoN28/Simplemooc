@@ -12,10 +12,12 @@
 		<div class="pure-menu pure-menu-open">
 			<ul>
 				<li class="pure-menu-heading">Bem vindo {{user}}</li>
+				{%block menu-options%}
 				{%my_courses user%}
 				<li><a class="pure-menu-heading">Minha Conta</a></li>
 				<li><a href="{%url 'accounts:edit'%}"><i class="fas fa-cog"></i>Editar Conta</a></li>
 				<li><a href="{%url 'accounts:edit-password'%}"><i class="fas fa-lock"></i>Editar Senha</a></li>
+				{%endblock%}
 			</ul>
 		</div>
 	</div>
@@ -28,7 +30,7 @@
 				<h3>{{enrollment.course}} ({{enrollment.course.start_date|date:'d/M/Y'|default:'Data não informada'}})</h3>
 				{{enrollment.course.description|linebreaks}}
 				<div class="pure-controls">
-					<a href="#" class="pure-button pure-button-primary"> Acessar </a>
+					<a href="{% url 'courses:announcements' enrollment.course.slug%}" class="pure-button pure-button-primary"> Acessar </a>
 					<a href="#" class="pure-button button-error"> Cancelar </a>
 				</div>
 			</div>

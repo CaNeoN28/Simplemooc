@@ -70,4 +70,21 @@ def enrollments(request, slug):
 
     return redirect('accounts:dashboard')
 
+@login_required
+def announcements(request, slug):
+    course = get_object_or_404(Course, slug = slug)
+
+    if not request.user.is_staff: # Verifica se o membro é da equipe antes de tudo
+        enrollment = get_object_or_404(Enrollments, user = request.user, course = course)
+        if not enrollment.is_approved():
+            messages.error(request, 'A sua inscrição está pendente')
+            return redirect('accounts:dashboard')
+
+    template_name = 'courses/announcements.html'
+    context = {
+        'course' : course
+    }
+    
+    return render(request, template_name, context)
+
     
