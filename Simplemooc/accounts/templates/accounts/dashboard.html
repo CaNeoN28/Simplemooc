@@ -11,18 +11,30 @@
 		</ul>
 		<div class="pure-menu pure-menu-open">
 			<ul>
+				<li class="pure-menu-heading">Bem vindo {{user}}</li>
 				{%my_courses user%}
 				<li><a class="pure-menu-heading">Minha Conta</a></li>
-				<li><a href="{%url 'accounts:edit'%}">Editar Conta</a></li>
-				<li><a href="{%url 'accounts:edit-password'%}">Editar Senha</a></li>
+				<li><a href="{%url 'accounts:edit'%}"><i class="fas fa-cog"></i>Editar Conta</a></li>
+				<li><a href="{%url 'accounts:edit-password'%}"><i class="fas fa-lock"></i>Editar Senha</a></li>
 			</ul>
 		</div>
 	</div>
 	<div class="pure-u-2-3">
 		<div class="inner">
 			{%block dashboard_content%}
-			<p><strong>Nome</strong>: {{user}}</p>
-			<p><strong>Email</strong>: {{user.email}}</p>
+			<h2>Meus cursos : </h2>
+			{%for enrollment in enrollments%}
+			<div class="well">
+				<h3>{{enrollment.course}} ({{enrollment.course.start_date|date:'d/M/Y'|default:'Data não informada'}})</h3>
+				{{enrollment.course.description|linebreaks}}
+				<div class="pure-controls">
+					<a href="#" class="pure-button pure-button-primary"> Acessar </a>
+					<a href="#" class="pure-button button-error"> Cancelar </a>
+				</div>
+			</div>
+			{%empty%}
+			<aside class="pure-u-1">Não há cursos inscritos</aside>
+			{%endfor%}
 			{%endblock%}
 		</div>
 	</div>

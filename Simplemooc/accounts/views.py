@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from Simplemooc.accounts.models import PasswordReset
 from Simplemooc.accounts.utils import generate_hash_key
+from Simplemooc.courses.models import Enrollments
 from .forms import EditAccountForm, RegisterForm, ResetPassword
 from django.conf import settings
 
@@ -15,7 +16,11 @@ User = get_user_model()
 @login_required #Redireciona para o login se não houver usuário logado
 def dashboard(request):
     template_name = 'accounts/dashboard.html'
-    return render(request, template_name)
+    enrollments = Enrollments.objects.filter(user = request.user)
+    context = {
+        'enrollments' : enrollments
+    }
+    return render(request, template_name, context)
 
 def register(request):
     template_name = 'accounts/register.html'

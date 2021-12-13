@@ -1,6 +1,6 @@
 <li class="pure-menu-heading">Meus cursos</li>
 {%for enrollment in enrollments%}
-<li>{{enrollment.course}}</li>
+<li><a href=""><i class="fas fa-book"></i>{{enrollment.course}}</a></li>
 {%empty%}
-<li>Você não está inscrito em nenhum curso</li>
+<li><a href="">Você não está inscrito em nenhum curso</a></li>
 {%endfor%}
