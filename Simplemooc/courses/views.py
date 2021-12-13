@@ -1,8 +1,7 @@
-from typing import ContextManager
-from django.http import request
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Course #Referencia a tabela Course do BD
+from .models import Course, Enrollments #Referencia a tabela Course do BD
 from .forms import ContactCourse #Chamado ao form de contato do app
 
 # Create your views here.
@@ -51,5 +50,19 @@ def details(request, slug):
     context['course'] = course
 
     return render(request, template_name, context)
+
+@login_required
+def enrollments(request, slug):
+    course = get_object_or_404(Course, slug = slug) # Verifica se o curso está presente no BD
+    enrollment, create = Enrollments.objects.get_or_create(
+        user = request.user, course=course
+        )
+    # A primeira variável cria sempre, a segunda somente se a inscrição foi criado agora
+    
+    if create:
+        enrollment.activate()
+    # Ativa a inscrição se ela não foi previamente criada
+    
+    return redirect('accounts:dashboard')
 
     

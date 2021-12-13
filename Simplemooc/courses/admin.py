@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Course
+from .models import Course, Enrollments
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'created_at', 'start_date'] #Informações exibidas nas listas de cursos
@@ -11,3 +11,9 @@ class CourseAdmin(admin.ModelAdmin):
 
 admin.site.register(Course, CourseAdmin) #Possibilita a alteração dos cursos pelo site de administração
 # O "COURSEADMIN" chama a classe de personalização
+
+class EnrollmentsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'course', 'created_at']
+    search_fields = ['user', 'course']
+
+admin.site.register(Enrollments, EnrollmentsAdmin)
