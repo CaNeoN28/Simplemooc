@@ -72,3 +72,33 @@ class Enrollments(models.Model):
         ordering = ['course']
         unique_together = (('user', 'course'),)
         #Essa instrução define que não podera haver o mesmo usuário inscrito no mesmo curso duas vezes
+    
+class Announcements(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
+    title = models.CharField('Título', max_length=100)
+    content = models.TextField('Conteúdo')
+
+    created_at = models.DateTimeField('Criado em', auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Anúncio'
+        verbose_name_plural = 'Anúncios'
+        ordering = ['course','-created_at']
+
+class Comments(models.Model):
+    announcement = models.ForeignKey(Announcements, on_delete=models.CASCADE, verbose_name='Anúncio',
+    related_name='announcements_comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Usuário')
+    comment = models.TextField('Comentário')
+
+    created_at = models.DateTimeField('Criado em', auto_now_add = True, blank = True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now = True, blank = True)
+
+    class Meta:
+        verbose_name = 'Comentário'
+        verbose_name_plural = 'Comentários'
+        ordering = ['announcement','created_at']

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Course, Enrollments
+from .models import Announcements, Comments, Course, Enrollments
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'created_at', 'start_date'] #Informações exibidas nas listas de cursos
@@ -17,3 +17,4 @@ class EnrollmentsAdmin(admin.ModelAdmin):
     search_fields = ['user', 'course']
 
 admin.site.register(Enrollments, EnrollmentsAdmin)
+admin.site.register([Announcements, Comments])
