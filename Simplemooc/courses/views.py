@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Course, Enrollments #Referencia a tabela Course do BD
+from .models import Announcements, Course, Enrollments #Referencia a tabela Course do BD
 from .forms import ContactCourse #Chamado ao form de contato do app
 
 # Create your views here.
@@ -82,7 +82,8 @@ def announcements(request, slug):
 
     template_name = 'courses/announcements.html'
     context = {
-        'course' : course
+        'course' : course,
+        'announcements' : course.course_announcements.all()
     }
     
     return render(request, template_name, context)

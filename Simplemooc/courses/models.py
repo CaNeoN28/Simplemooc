@@ -74,7 +74,8 @@ class Enrollments(models.Model):
         #Essa instrução define que não podera haver o mesmo usuário inscrito no mesmo curso duas vezes
     
 class Announcements(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Curso', 
+    related_name='course_announcements')
     title = models.CharField('Título', max_length=100)
     content = models.TextField('Conteúdo')
 
@@ -97,6 +98,10 @@ class Comments(models.Model):
 
     created_at = models.DateTimeField('Criado em', auto_now_add = True, blank = True)
     updated_at = models.DateTimeField('Atualizado em', auto_now = True, blank = True)
+
+    def __str__(self):
+        #return (self.comment[:20] + '...')
+        return (self.user , self.announcement.course , self.created_at)
 
     class Meta:
         verbose_name = 'Comentário'
