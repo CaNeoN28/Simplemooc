@@ -1,6 +1,8 @@
+from django import conf
 from django.conf import settings
 from django.db import models
-from django.template.loader import render_to_string
+
+from Simplemooc.core.mail import send_mail_template
 
 class CourseManager(models.Manager):
     def search(self, query):
@@ -108,3 +110,23 @@ class Comments(models.Model):
         verbose_name = 'Comentário'
         verbose_name_plural = 'Comentários'
         ordering = ['announcement','created_at']
+
+
+def post_save_announcements(instance, created, **kwargs):
+    if created: # Verifica se o anúncio foi criado
+        subject = instance.title # Recebe o título do anúncio
+        context = {
+            'announcement' : instance # Salva o anúncio no contexto
+        }
+
+        template_name = 'mail/send_announcement.html'
+        enrollments = Enrollments.objects.filter(course = instance.course, status=1)
+        # Lista com todas as inscrições válidas referentes ao curso
+
+        for enrollment in enrollments: # Varre a lista de alunos no curso
+            recipient_list = [enrollment.user.email] # Salva o email do aluno inscrito no curso
+            send_mail_template(subject=subject, template_name=template_name, context=context,
+            recipient_list=recipient_list) # Envia o email ao aluno
+    
+models.signals.post_save.connect(post_save_announcements, sender = Announcements,
+ dispatch_uid='post_save_announcements')
