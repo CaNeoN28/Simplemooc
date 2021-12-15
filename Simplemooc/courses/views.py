@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Announcements, Course, Enrollments #Referencia a tabela Course do BD
-from .forms import ContactCourse #Chamado ao form de contato do app
+from .forms import CommentForm, ContactCourse #Chamado ao form de contato do app
 
 # Create your views here.
 
@@ -98,12 +98,23 @@ def show_announcement(request, slug, pk):
             messages.error(request, 'A sua inscrição está pendente')
             return redirect('accounts:dashboard')
 
-    template_name = 'courses/show_announcement.html'
     announcement = get_object_or_404(course.course_announcements.all(), pk = pk)
     #Pega um anúncio específico de um curso específico, usa o related_name 
+    
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.announcement = announcement
+        comment.save()
+        form = CommentForm()
+        messages.success(request, 'O seu comentário foi enviado com sucesso')
+
+    template_name = 'courses/show_announcement.html'
     context = {
         'course' : course,
-        'announcement' : announcement
+        'announcement' : announcement,
+        'form' : form,
     }
 
     return render(request, template_name, context)

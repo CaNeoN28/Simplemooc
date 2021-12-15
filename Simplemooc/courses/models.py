@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.template.loader import render_to_string
 
 class CourseManager(models.Manager):
     def search(self, query):
@@ -101,7 +102,7 @@ class Comments(models.Model):
 
     def __str__(self):
         #return (self.comment[:20] + '...')
-        return (self.user , self.announcement.course , self.created_at)
+        return (self.user.username[:] + ', '+ self.announcement.course.name[:] +', '+ self.announcement.title[:] +', ' + str(self.created_at))
 
     class Meta:
         verbose_name = 'Comentário'
