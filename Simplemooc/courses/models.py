@@ -121,7 +121,7 @@ class Lesson(models.Model):
     created_at = models.DateTimeField('Criado em', auto_now_add=True, blank=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True, blank = True)
 
-    course = models.ForeignKey(Course, on_delete = models.CASCADE)
+    course = models.ForeignKey(Course, on_delete = models.CASCADE, related_name='course_lesson')
 
     def __str__(self):
         return self.name
@@ -136,7 +136,7 @@ class Material(models.Model):
     embedded = models.TextField('Vídeo embedded', blank = True)
     file = models.FileField(upload_to='lessons/materials', blank = True, null=True)
 
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='lesson_material')
 
     def is_embedded(self):
         return(self.embedded)
