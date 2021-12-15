@@ -110,7 +110,43 @@ class Comments(models.Model):
         verbose_name = 'Comentário'
         verbose_name_plural = 'Comentários'
         ordering = ['announcement','created_at']
+    
+class Lesson(models.Model):
 
+    name = models.CharField('Nome', max_length=100)
+    description = models.TextField('Descrição', blank = True)
+    number = models.IntegerField('Número (ordem)', blank = True, default=0)
+    release_date = models.DateTimeField('Data de lançamento', blank = True, null = True)
+
+    created_at = models.DateTimeField('Criado em', auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True, blank = True)
+
+    course = models.ForeignKey(Course, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Aula'
+        verbose_name_plural = 'Aulas'
+        ordering = ['number']
+
+class Material(models.Model):
+    title = models.CharField('Título', max_length=100)
+    embedded = models.TextField('Vídeo embedded', blank = True)
+    file = models.FileField(upload_to='lessons/materials', blank = True, null=True)
+
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+
+    def is_embedded(self):
+        return(self.embedded)
+
+    def __str__(self):
+        return(self.title)
+
+    class Meta:
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materiais'
 
 def post_save_announcements(instance, created, **kwargs):
     if created: # Verifica se o anúncio foi criado
