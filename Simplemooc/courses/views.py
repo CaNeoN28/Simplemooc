@@ -89,6 +89,26 @@ def announcements(request, slug):
     return render(request, template_name, context)
 
 @login_required
+def show_announcement(request, slug, pk):
+    course = get_object_or_404(Course, slug = slug)
+
+    if not request.user.is_staff:
+        enrollment = get_object_or_404(Enrollments, user = request.user, course = course)
+        if not enrollment.is_approved():
+            messages.error(request, 'A sua inscrição está pendente')
+            return redirect('accounts:dashboard')
+
+    template_name = 'courses/show_announcement.html'
+    announcement = get_object_or_404(course.course_announcements.all(), pk = pk)
+    #Pega um anúncio específico de um curso específico, usa o related_name 
+    context = {
+        'course' : course,
+        'announcement' : announcement
+    }
+
+    return render(request, template_name, context)
+
+@login_required
 def undo_enrollment(request, slug):
     course = get_object_or_404(Course, slug = slug)
     enrollment = get_object_or_404(Enrollments, course = course, user = request.user)
