@@ -1,8 +1,11 @@
+from django import contrib
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import message
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 
-from .models import Announcements, Course, Enrollments #Referencia a tabela Course do BD
+from .models import Announcements, Course, Enrollments, Lesson #Referencia a tabela Course do BD
 from .forms import CommentForm, ContactCourse #Chamado ao form de contato do app
 from .decorators import enrollment_required
 
@@ -137,6 +140,41 @@ def undo_enrollment(request, slug):
     }
 
     return render(request, template_name, context)
+
+@login_required
+@enrollment_required
+def lessons(request, slug):
+    course = request.course
+    template_name = 'courses/lessons.html'
+    lessons = course.release_lessons()
     
+    if request.user.is_staff:
+        lessons = course.course_lesson.all()
+        
+    context = {
+        'course' : course,
+        'lessons' : lessons
+    }
+
+    return render(request, template_name, context)
+
+@login_required
+@enrollment_required
+def lesson(request, slug, pk):
+    course = request.course
+    lesson = get_object_or_404(Lesson, pk = pk, course = course)
+
+    if not request.user.is_staff and not lesson.is_avaible():
+        messages.error(request, 'Essa aula não está disponivel')
+        return redirect('courses:lessons', slug=course.slug)
+    
+    template_name = 'courses/lesson.html'
+    context = {
+        'course' : course,
+        'lesson' : lesson
+    }
+
+    return render(request, template_name, context)
+
 
     

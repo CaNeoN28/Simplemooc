@@ -10,5 +10,7 @@ urlpatterns = [
     path('<slug:slug>/inscricao', views.enrollments, name='enrollment'),
     path('<slug:slug>/anuncios', views.announcements, name='announcements'),
     path('<slug:slug>/cancelar-inscricao', views.undo_enrollment, name = 'undo-enrollment'),
-    path('<slug:slug>/anuncio/<int:pk>', views.show_announcement, name = 'show-announcement')
+    path('<slug:slug>/anuncios/<int:pk>', views.show_announcement, name = 'show-announcement'),
+    path('<slug:slug>/aulas', views.lessons, name = 'lessons'),
+    path('<slug:slug>/aulas/<int:pk>', views.lesson, name = 'lesson')
 ]

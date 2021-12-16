@@ -21,6 +21,7 @@ def enrollment_required(view_func):
         if not has_permission:
             messages.error(request, message)
             return redirect('accounts:dashboard')
+        request.course = course
         return view_func(request, *args, **kwargs)
     return _wrapper
     
