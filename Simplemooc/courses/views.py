@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Announcements, Course, Enrollments #Referencia a tabela Course do BD
 from .forms import CommentForm, ContactCourse #Chamado ao form de contato do app
+from .decorators import enrollment_required
 
 # Create your views here.
 
@@ -71,7 +72,9 @@ def enrollments(request, slug):
     return redirect('accounts:dashboard')
 
 @login_required
+@enrollment_required
 def announcements(request, slug):
+    '''
     course = get_object_or_404(Course, slug = slug)
 
     if not request.user.is_staff: # Verifica se o membro é da equipe antes de tudo
@@ -79,7 +82,8 @@ def announcements(request, slug):
         if not enrollment.is_approved():
             messages.error(request, 'A sua inscrição está pendente')
             return redirect('accounts:dashboard')
-
+    '''
+    course = request.course # Passa o curso presente no contexto, que no caso, vem pelo decorator @enrollment_required
     template_name = 'courses/announcements.html'
     context = {
         'course' : course,
@@ -89,14 +93,9 @@ def announcements(request, slug):
     return render(request, template_name, context)
 
 @login_required
+@enrollment_required
 def show_announcement(request, slug, pk):
-    course = get_object_or_404(Course, slug = slug)
-
-    if not request.user.is_staff:
-        enrollment = get_object_or_404(Enrollments, user = request.user, course = course)
-        if not enrollment.is_approved():
-            messages.error(request, 'A sua inscrição está pendente')
-            return redirect('accounts:dashboard')
+    course = request.course
 
     announcement = get_object_or_404(course.course_announcements.all(), pk = pk)
     #Pega um anúncio específico de um curso específico, usa o related_name 
