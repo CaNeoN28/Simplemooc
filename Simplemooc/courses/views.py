@@ -5,7 +5,7 @@ from django.core.mail import message
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 
-from .models import Announcements, Course, Enrollments, Lesson #Referencia a tabela Course do BD
+from .models import Announcements, Course, Enrollments, Lesson, Material #Referencia a tabela Course do BD
 from .forms import CommentForm, ContactCourse #Chamado ao form de contato do app
 from .decorators import enrollment_required
 
@@ -166,7 +166,7 @@ def lesson(request, slug, pk):
 
     if not request.user.is_staff and not lesson.is_avaible():
         messages.error(request, 'Essa aula não está disponivel')
-        return redirect('courses:lessons', slug=course.slug)
+        return redirect('courses:lessons', slug=slug)
     
     template_name = 'courses/lesson.html'
     context = {
@@ -176,5 +176,24 @@ def lesson(request, slug, pk):
 
     return render(request, template_name, context)
 
+@login_required
+@enrollment_required
+def material(request, slug, pk):
+    course = request.course
+    material = get_object_or_404(Material, pk = pk, lesson__course=course)
+    lesson = material.lesson
+    if not request.user.is_staff and not lesson.is_avaible():
+        messages.error(request, 'Esse material não está disponível')
+        return redirect('courses:lesson', slug=slug, pk=pk)
+    if not material.is_embedded():
+        return redirect(material.file.url)
+    template_name= 'courses/material.html'
+    context = {
+        'course' : course,
+        'material' : material,
+        'lesson' : lesson
+    }
+
+    return render(request, template_name, context)
 
     
