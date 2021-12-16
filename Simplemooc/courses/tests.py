@@ -21,16 +21,16 @@ class ContactCourseTest(TestCase):
     def test_contact_email(self):
         data = {'name' : 'fulando de tal', 'email' : '', 'message' : ''}
         client = Client()
-        path = reverse('course:details', args=[self.course.slug])
+        path = reverse('courses:details', args=[self.course.slug])
         response = client.post(path, data)
-        self.assertFormError(response, 'form', 'email', 'Este campo é obrigatório')
-        self.assertFormError(response, 'form', 'message', 'Este campo é obrigatório')
+        self.assertFormError(response, 'forms', 'email', 'Este campo é obrigatório.')
+        self.assertFormError(response, 'forms', 'message', 'Este campo é obrigatório.')
 
     def test_contact_form_sucess(self):
         data = {'name' : 'fulano de tal', 'email' : 'admin@gmail.com', 'message': 'Olá'}
         client = Client()
         path = reverse('courses:details', args=[self.course.slug])
         response = client.post(path,data)
-        self.assertEqual(len(mail.outbox))
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [settings.CONTACT_EMAIL])
 
