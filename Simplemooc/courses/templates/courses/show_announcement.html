@@ -1,0 +1,41 @@
+{%extends 'courses/course_dashboard.html'%}
+
+{%block dashboard_content%}
+	<div class="well">
+		<h2>{{announcement.title}}</h2>
+		{{announcement.content|linebreaks}}
+	</div>
+	<div class="well">
+		<h4 id="comentarios">Comentários</h4>
+		<a class="fright" href="#add_coment">Comentar</a>
+		<hr>
+		{%for comment in announcement.announcements_comments.all%}
+		<p>
+			<strong>{{comment.user}}</strong> comentou a {{comment.created_at|timesince}} atrás
+			<br>
+			{{comment.comment|linebreaks}}
+		</p>
+		<hr>
+		{%empty%}
+		<p>
+			Não há comentários
+		</p>
+		{%endfor%}
+		<form method="post" class="pure-form pure-form-stacked">
+			{%csrf_token%}
+			<fieldset>
+				{{form.non_field_errors}}
+				{%for field in form%}
+				<div class="pure-control-group">
+					{{field.label_tag}}
+					{{field}}
+					{{field.errors}}
+				</div>
+				{%endfor%}
+				<div class="pure-controls">
+					<button type="submit" class="pure-button pure-button-primary">Enviar</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+{%endblock%}

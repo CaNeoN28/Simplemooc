@@ -1,0 +1,48 @@
+{%extends 'courses/course_dashboard.html'%}
+
+{%block breadcrumb%}
+{{block.super}}
+<li>/</li>
+<li><a href="{% url 'courses:lessons' course.slug%}">Aulas</a></li>
+{%endblock%}
+
+{%block dashboard_content%}
+<div class="well">
+	<h2>{{lesson}}</h2>
+	{{lesson.description|linebreaks}}
+	<table class="pure-table full">
+		<thead>
+			<tr>
+				<th>
+					Nome
+				</th>
+				<th>
+					Ação
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for material in lesson.lesson_material.all %}
+			<tr class="{% cycle '' 'pure-table-odd'%}"> <!-- Alterna entre estilos de um laço -->
+				<td>
+					{{material}}
+				</td>
+				<td>
+					{%if material.is_embedded%}
+					<a href="{%url 'courses:material' course.slug material.pk%}">
+						<i class="fas fa-camera"></i>
+						Acessar
+					</a>
+					{%else%}
+					<a target="_blank" href="{{material.file.url}}">
+						Baixar
+					</a>
+					{%endif%}
+				</td>
+			</tr>
+			{%empty%}
+			{%endfor%}
+		</tbody>
+	</table>
+</div>
+{%endblock%}

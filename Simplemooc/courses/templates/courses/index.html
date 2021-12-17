@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{%load static%}
+{% block content%}
+    {%for course in courses%}
+    <div class="pure-gr content-ribbon">
+        <div class="pure-u-1-3">
+            <div class="l-box">
+                <a href="{{course.get_absolute_url}}">
+                    {% if course.image%}
+                    <img src="{{course.image.url}}" alt="{{course}}"></a>
+                    {% else%}
+                    <img src="{%static 'img/placeholder.png'%}">
+                    {%endif%}
+            </div>
+        </div>
+        <div class="pure-u-2-3">
+            <div class="l-box">
+                <h4 class="content-subhead"><a href="{{course.get_absolute_url}}">
+                	{{course}}
+                </a></h4>
+
+                {{course.description|linebreaks}}
+            </div>
+        </div>
+    </div>
+    {%empty%}
+    <div class="pure-gr content-ribbon">
+        <div class="pure-u-2-3">
+            <div class="l-box">
+                <p>Nenhum curso disponivel</p>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+{% endblock %}
