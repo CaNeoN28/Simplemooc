@@ -152,7 +152,7 @@ DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_RENDER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['simplemooc-caneon28.herokuapp.com']
 
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
