@@ -35,21 +35,21 @@
 </head>
 <body>
     <div class="header">
-        <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-            <a class="pure-menu-heading" href="{% url 'core:home'%}">SIMPLE MOOC</a>
-            <ul>
-                <li><a href="{% url 'courses:index'%}">Cursos</a></li>
-                <li><a href="{% url 'core:contact'%}">Contato</a></li>
+        <div class="pure-menu pure-menu-horizontal">
+            <a class="pure-menu-heading pure-menu-link" href="{% url 'core:home'%}">SIMPLE MOOC</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'courses:index'%}">Cursos</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'core:contact'%}">Contato</a></li>
 
                 {%if user.is_authenticated%} <!-- Verifica se o usuário é autenticado, ou seja, não anônimo
                                                   OBS : Não é necessário adicionar ao contexto -->
-                <li><a href="{% url 'accounts:dashboard'%}">Painel</a></li>
-                <li><a href="{% url 'accounts:logout'%}">Sair</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'accounts:dashboard'%}">Painel</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'accounts:logout'%}">Sair</a></li>
 
                 {%else%}
 
-                <li><a href="{% url 'accounts:login'%}">Entrar</a></li>
-                <li><a href="{% url 'accounts:register'%}">Cadastro</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'accounts:login'%}">Entrar</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'accounts:register'%}">Cadastro</a></li>
 
                 {%endif%}
             </ul>
