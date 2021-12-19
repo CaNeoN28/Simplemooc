@@ -155,11 +155,6 @@ ALLOWED_HOSTS = []
 STATIC_ROOT = os.path.join(BASE_DIR,'Simplemooc', 'staticfiles')
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'Simplemooc', 'static'),
-    os.path.join(BASE_DIR, 'Simplemooc', 'core/static')
-)
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 import dj_database_url
