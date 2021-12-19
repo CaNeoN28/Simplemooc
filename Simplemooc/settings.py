@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'simplemooc', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'Simplemooc', 'media')
 MEDIA_URL ='/media/'
 
 # Default primary key field type
@@ -152,11 +152,12 @@ SECURE_PROXY_SSL_RENDER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = []
 
-STATIC_ROOT = os.path.join(BASE_DIR,'simplemooc', 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR,'Simplemooc', 'staticfiles')
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'simplemooc', 'static'),
+    os.path.join(BASE_DIR, 'Simplemooc', 'static'),
+    os.path.join(BASE_DIR, 'Simplemooc', 'core/static')
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
