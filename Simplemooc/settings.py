@@ -150,15 +150,10 @@ AUTH_USER_MODEL = 'accounts.User'
 # Heroku settings
 SECURE_PROXY_SSL_RENDER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['dry-falls-52046.herokuapp.com']
+ALLOWED_HOSTS = []
 
-PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
 
 import dj_database_url
 
