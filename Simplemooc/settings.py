@@ -150,7 +150,7 @@ AUTH_USER_MODEL = 'accounts.User'
 # Heroku settings
 SECURE_PROXY_SSL_RENDER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['caneon28-simplemooc.herokuapp.com']
+ALLOWED_HOSTS = ['dry-falls-52046.herokuapp.com']
 
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
@@ -164,3 +164,6 @@ import dj_database_url
 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+import django_heroku
+django_heroku.settings(locals())
