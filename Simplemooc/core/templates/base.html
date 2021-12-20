@@ -30,12 +30,142 @@
             padding: 0em 1em 1em 1em;
             margin: 1em;
         }
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0 auto;
+            line-height: 1.7em;
+        }
+        .l-box {
+            padding: 1em;
+        }
+        .header {
+            margin: 0 0;
+        }
+        .header .pure-menu {
+            padding: 0.5em;
+        }
+        .header .pure-menu li a:hover,
+        .header .pure-menu li a:focus {
+            background: none;
+            border: none;
+            color: #aaa;
+        }
+        body .primary-button {
+            background: #02a6eb;
+            color: #fff;
+        }
+        .splash {
+            margin: 2em auto 0;
+            padding: 3em 0.5em;
+            background: #eee;
+        }
+        .splash .splash-head {
+            font-size: 300%;
+            margin: 0em 0;
+            line-height: 1.2em;
+        }
+        .splash .splash-subhead {
+            color: #999;
+            font-weight: 300;
+            line-height: 1.4em;
+        }
+        .splash .primary-button {
+            font-size: 150%;
+        }
+        .content .content-subhead {
+            color: #999;
+            padding-bottom: 0.3em;
+            text-transform: uppercase;
+            margin: 0;
+            border-bottom: 2px solid #eee;
+            display: inline-block;
+        }
+        .content .content-ribbon {
+            margin: 3em;
+            border-bottom: 1px solid #eee;
+        }
+        .ribbon {
+            background: #eee;
+            text-align: center;
+            padding: 2em;
+            color: #999;
+        }
+        .ribbon h2 {
+            display: inline;
+            font-weight: normal;
+        }
+        .footer {
+            background: #111;
+            color: #666;
+            text-align: center;
+            padding: 1em;
+            font-size: 80%;
+        }
+        
+        ul.breadcrumb {
+            padding: 10px 16px;
+            list-style: none;
+        }
+        
+        header {
+            margin: 0 0;
+        }
+        
+        .header .pure-menu {
+            padding: 0.5em;
+            background-color: #2d3e50;
+        }
+        
+        .header .pure-menu a {
+            color: #fff;
+        }
+        
+        .header .pure-menu li a:hover,
+        .header .pure-menu li a:focus {
+            background: none;
+            border: none;
+            color: #AECFE5;
+        }
+        
+        .header .pure-menu-heading {
+            float: left;
+        }
+        
+        .header ul {
+            float: right;
+        }
+        
+        .home-menu{
+            padding: 0.5em;
+            text-align: left;
+            box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+        }
+        
+        .home-menu.pure-menu-open {
+            background: #2d3e50;
+        }
+        
+        .home-menu a {
+            color: #6FBEF3;
+        }
+        
+        .home-menu li a:hover,
+        .home-menu li a:focus {
+            background: none;
+            border: none;
+            color: #AECFE5;
+        }
     </style>
 
 </head>
 <body>
     <div class="header">
-        <div class="pure-menu pure-menu-horizontal">
+        <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
             <a class="pure-menu-heading pure-menu-link" href="{% url 'core:home'%}">SIMPLE MOOC</a>
             <ul class="pure-menu-list">
                 <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'courses:index'%}">Cursos</a></li>
