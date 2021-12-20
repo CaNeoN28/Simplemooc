@@ -20,11 +20,13 @@ from django.urls.conf import include
 from .core import urls as core_urls
 from .courses import urls as course_urls
 from .accounts import urls as accounts_urls
+from .forum import urls as forum_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path(r'', include((core_urls, 'core'), namespace = 'core')),
     path(r'cursos/', include((course_urls, 'courses'), namespace = 'courses')),
-    path(r'conta/', include((accounts_urls, 'accounts'), namespace = 'accounts'))
+    path(r'conta/', include((accounts_urls, 'accounts'), namespace = 'accounts')),
+    path(r'forum/', include((forum_urls, 'forum'), namespace = 'forum'))
 ]

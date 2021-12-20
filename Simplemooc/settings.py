@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     # My apps
     'Simplemooc.core',
     'Simplemooc.courses',
-    'Simplemooc.accounts'
+    'Simplemooc.accounts',
+    'Simplemooc.forum'
 ]
 
 MIDDLEWARE = [
