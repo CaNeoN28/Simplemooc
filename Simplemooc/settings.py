@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4ctj15eiy-w1t!i%&e^0%5)qbvuh5f338#6pslb9jnd1@izvg1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -150,9 +150,9 @@ AUTH_USER_MODEL = 'accounts.User'
 # Heroku settings
 SECURE_PROXY_SSL_RENDER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['caneon-simplemooc.herokuapp.com']
 
-STATIC_ROOT = os.path.join(BASE_DIR,'Simplemooc', 'staticfiles')
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = "/static/"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -164,3 +164,8 @@ DATABASES['default'].update(prod_db)
 
 import django_heroku
 django_heroku.settings(locals())
+
+try:
+    from Simplemooc.local_settings import *
+except:
+    pass
