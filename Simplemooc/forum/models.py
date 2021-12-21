@@ -10,7 +10,7 @@ class Thread(models.Model):
     views = models.IntegerField('Visualizações', blank=True, default=0)
     answers = models.IntegerField('Respostas', blank=True, default=0)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='user_tread', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='user_thread', null=True)
 
     created_at = models.DateTimeField('Criado em ', auto_now_add=True, blank=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True, blank = True)
@@ -30,6 +30,7 @@ class Reply(models.Model):
     correct = models.BooleanField('Correto?', blank = True, default=False)
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='user_reply', null=True)
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='thread_reply')
 
     created_at = models.DateTimeField('Criado em', blank=True, auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', blank=True, auto_now=True)
