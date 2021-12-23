@@ -161,6 +161,23 @@
             border: none;
             color: #AECFE5;
         }
+        .pagination {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+        }
+
+        .pagination .active a {
+            background-color: #f5f5f5;
+            display: inline-block;
+        }
     </style>
 
 </head>
@@ -171,6 +188,7 @@
             <ul class="pure-menu-list">
                 <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'courses:index'%}">Cursos</a></li>
                 <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'core:contact'%}">Contato</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'forum:index'%}">Fóruns</a></li>
 
                 {%if user.is_authenticated%} <!-- Verifica se o usuário é autenticado, ou seja, não anônimo
                                                   OBS : Não é necessário adicionar ao contexto -->

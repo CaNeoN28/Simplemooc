@@ -12,11 +12,14 @@
 		<div class="pure-menu pure-menu-open">
 			<ul>
 				<li class="pure-menu-heading">Tópicos : </li>
-				<li><a href="#"><i class="fas fa-refresh"></i> Mais recentes</a></li>
-				<li><a href="#"><i class="fas fa-eye"></i> Mais visualizados</a></li>
-				<li><a href="#"><i class="fas fa-comments"></i> Mais comentados</a></li>
+				<li><a href=""><i class="fas fa-refresh"></i> Mais recentes</a></li>
+				<li><a href="?order=views"><i class="fas fa-eye"></i> Mais visualizados</a></li>
+				<li><a href="?order=answers"><i class="fas fa-comments"></i> Mais comentados</a></li>
 
 				<li class="pure-menu-heading">Tags : </li>
+				{% for tag in tags %}
+				<li><a href="#"><i class="fas fa-tag"> {{tag}}</i></a></li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
@@ -40,6 +43,20 @@
 			{% empty %}
 			<h3>Não há discussões</h3>
 			{% endfor %}
+
+			<div class="pagination">
+				{% if page_obj.has_previous %}
+					<a href="?page={{page_obj.previous_page_number}}{%if request.GET.order%}&order={{request.GET.order}}{%endif%}">&laquo;</a>
+				{% endif %}
+				{% for page in paginator.page_range%}
+				<span class="{% if page == page_obj.number%}active{%endif%}">
+					<a href="?page={{page}}{%if request.GET.order%}&order={{request.GET.order}}{%endif%}">{{page}}</a>
+				</span>
+				{% endfor %}
+				{% if page_obj.has_next %}
+					<a href="?page={{page_obj.next_page_number}}{%if request.GET.order%}&order={{request.GET.order}}{%endif%}">&raquo;</a>
+				{% endif %}
+			</ul>
 		</div>
 </div>
 {%endblock%}
