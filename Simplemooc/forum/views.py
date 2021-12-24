@@ -1,6 +1,8 @@
+from typing import Any
 from django.db.models import query
 from django.shortcuts import render
 from django.views.generic import TemplateView, View, ListView
+from taggit.models import Tag
 
 from Simplemooc.forum.models import Thread
 
@@ -25,12 +27,15 @@ class ForumView(ListView):
 
         elif order == 'answers':
             queryset = queryset.order_by('-answers')
-        
+
+        tag = self.kwargs.get('tag', None) # Pega um parâmetro nomeado do template
+        if tag:
+            queryset = queryset.filter(tags__slug__in = [tag]) # Filtra os resultados com base na tag
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(ForumView, self).get_context_data(**kwargs)
-        context['tags'] = Thread.tags.all
+        context['tags'] = Thread.tags.all()
         return context
 
 index = ForumView.as_view()

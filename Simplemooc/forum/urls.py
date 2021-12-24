@@ -4,4 +4,5 @@ from django.urls import path
 
 urlpatterns = [
     path('', forum_views.index, name='index'),
+    path('tag/<tag>', forum_views.index, name='index_tagged')
 ]
