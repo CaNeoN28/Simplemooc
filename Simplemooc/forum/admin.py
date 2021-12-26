@@ -7,6 +7,7 @@ from Simplemooc.forum.models import Reply, Thread
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ['title', 'user', 'created_at', 'updated_at']
     search_fields = ['title', 'user__email']
+    prepopulated_fields = {'slug' : ('title',)}
 
 class ReplyAdmin(admin.ModelAdmin):
     list_display = ['author', 'thread', 'created_at', 'updated_at']

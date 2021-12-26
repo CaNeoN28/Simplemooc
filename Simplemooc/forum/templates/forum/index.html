@@ -26,7 +26,7 @@
 		<div class="pure-u-2-3">
 			{% for thread in object_list %}
 			<div class="well">
-				<h3><a href="#"></a>{{thread.title}}</h3>
+				<h3><a href="{{thread.get_absolute_url}}">{{thread.title}}</a></h3>
 				<h5>
 					Criado por {{thread.user}} | {{thread.views}} visualizaç{{thread.views|pluralize:"ão,ões"}} |
 					{{thread.answers}} resposta{{thread.answers|pluralize}}

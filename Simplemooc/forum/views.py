@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models import query
 from django.shortcuts import render
-from django.views.generic import TemplateView, View, ListView
+from django.views.generic import TemplateView, View, ListView, DetailView
 from taggit.models import Tag
 
 from Simplemooc.forum.models import Thread
@@ -31,7 +31,7 @@ class ForumView(ListView):
         tag = self.kwargs.get('tag', None) # Pega um parâmetro nomeado do template
 
         if tag:
-            queryset = queryset.filter(tags__slug__icontains = tag) # Filtra os resultados com base na tag
+            queryset = queryset.filter(tags__slug__in = [tag]) # Filtra os resultados com base na tag
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -39,7 +39,17 @@ class ForumView(ListView):
         context['tags'] = Thread.tags.all()
         return context
 
+class ThreadView(DetailView):
+    template_name = 'forum/thread.html'
+    model = Thread
+
+    def get_context_data(self, **kwargs: Any):
+        context =  super(ThreadView, self).get_context_data(**kwargs)
+        context['tags'] = Thread.tags.all()
+        return context
+
 index = ForumView.as_view()
+thread = ThreadView.as_view()
 
 def forumView(request, slug = None):
     template_name = 'forum/index.html'

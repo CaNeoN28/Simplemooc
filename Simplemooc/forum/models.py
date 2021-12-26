@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 # Create your models here.
 
 from taggit.managers import TaggableManager
@@ -20,6 +21,10 @@ class Thread(models.Model):
 
     def __str__(self):
         return self.title
+        
+    def get_absolute_url(self):
+        return reverse("forum:thread", kwargs={"slug": self.slug}) # Retorna url com o endereço da view, args, e kwargs
+    
     
     class Meta:
         verbose_name = 'Tópico'
