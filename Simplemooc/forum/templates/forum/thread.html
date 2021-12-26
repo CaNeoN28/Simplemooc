@@ -39,6 +39,35 @@
 					<a class="fright">Criado há {{object.created_at|timesince}}</a>
 				</p>
 			</div>
+			<div class="well">
+				<h4>Respostas 
+				<a class="fright" href="#responder">Responder</a></h4>
+				{%for reply in object.thread_reply.all%}
+				<hr>
+				{%filter linebreaks%}
+				<strong>{{reply.author}} disse há {{reply.created_at|timesince}}</strong>
+				{{reply.reply}}
+				{%endfilter%}
+				{%empty%}
+				<strong>Não há respostas para esse tópico</strong>
+				{%endfor%}
+				<hr>
+				<form class="pure-form pure-form-stacked" method="post" id = "responder">
+					<fieldset>
+						{%csrf_token%}
+						{% for field in form%}
+						<div class="pure-control-group">
+							{{field.label_tag}}
+							{{field}}
+							{{field.errors}}
+						</div>
+						{% endfor %}
+						<div class="pure-control">
+							<button type="submit" class="pure-button pure-button-primary">Enviar</button>
+						</div>
+					</fieldset>
+				</form>
 			</div>
+		</div>
 	</div>
 {%endblock%}
