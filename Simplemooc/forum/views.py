@@ -39,3 +39,26 @@ class ForumView(ListView):
         return context
 
 index = ForumView.as_view()
+
+def forumView(request, tag = None):
+    template_name = 'forum/index.html'
+    context = {}
+
+    context['tags'] = Thread.tags.all()
+
+    posts = Thread.objects.all()
+
+    order = request.GET.get('order', '')
+
+    if order == 'views':
+        posts = posts.order_by('views')
+    
+    elif order == 'answers':
+        posts = posts.order_by('answers')
+
+    if tag:
+        posts = posts.filter(tags__slug__in = tag)
+    
+    context['posts'] = posts
+    
+    return render(request, template_name, context)
