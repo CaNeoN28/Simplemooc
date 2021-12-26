@@ -6,6 +6,7 @@ from taggit.managers import TaggableManager
 
 class Thread(models.Model):
     title = models.CharField('Título', max_length=100)
+    slug = models.SlugField('Identificador', max_length=100, unique=True)
     body = models.TextField('Conteúdo')
     views = models.IntegerField('Visualizações', blank=True, default=0)
     answers = models.IntegerField('Respostas', blank=True, default=0)

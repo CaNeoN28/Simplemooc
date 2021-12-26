@@ -29,8 +29,9 @@ class ForumView(ListView):
             queryset = queryset.order_by('-answers')
 
         tag = self.kwargs.get('tag', None) # Pega um parâmetro nomeado do template
+
         if tag:
-            queryset = queryset.filter(tags__slug__in = [tag]) # Filtra os resultados com base na tag
+            queryset = queryset.filter(tags__slug__icontains = tag) # Filtra os resultados com base na tag
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -40,7 +41,7 @@ class ForumView(ListView):
 
 index = ForumView.as_view()
 
-def forumView(request, tag = None):
+def forumView(request, slug = None):
     template_name = 'forum/index.html'
     context = {}
 
@@ -56,8 +57,8 @@ def forumView(request, tag = None):
     elif order == 'answers':
         posts = posts.order_by('answers')
 
-    if tag:
-        posts = posts.filter(tags__slug__in = tag)
+    if slug:
+        posts = posts.filter(tags__slug__in = [slug])
     
     context['posts'] = posts
     
