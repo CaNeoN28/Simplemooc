@@ -45,7 +45,12 @@
 				{%for reply in object.thread_reply.all%}
 				<hr>
 				{%filter linebreaks%}
-				<strong>{{reply.author}} disse há {{reply.created_at|timesince}}</strong>
+				<strong>
+				{% if reply.author %}
+				{{reply.author}}
+				{%else%}
+				(Usuário desconhecido)
+				{%endif%} disse há {{reply.created_at|timesince}}</strong>
 				{{reply.reply}}
 				{%endfilter%}
 				{%empty%}
