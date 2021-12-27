@@ -40,17 +40,12 @@
 				</p>
 			</div>
 			<div class="well">
-				<h4>Respostas 
+				<h4>Respostas /
 				<a class="fright" href="#responder">Responder</a></h4>
 				{%for reply in object.thread_reply.all%}
 				<hr>
 				{%filter linebreaks%}
-				<strong>
-				{% if reply.author %}
-				{{reply.author}}
-				{%else%}
-				(Usuário desconhecido)
-				{%endif%} disse há {{reply.created_at|timesince}}</strong>
+				<strong>{% if reply.author %}{{reply.author}}{%else%}(Usuário desconhecido){%endif%} disse há {{reply.created_at|timesince}}</strong>
 				{{reply.reply}}
 				{%endfilter%}
 				{%empty%}

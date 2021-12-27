@@ -44,6 +44,13 @@ class ForumView(ListView):
 class ThreadView(DetailView):
     template_name = 'forum/thread.html'
     model = Thread
+    
+    def get(self, request, *args, **kwargs):
+        response = super(ThreadView, self).get(request, *args, **kwargs)
+        if request.user.is_authenticated or request.user != self.object.user:
+            self.object.views = self.object.views + 1
+            self.object.save()
+        return response
 
     def get_context_data(self, **kwargs: Any):
         context =  super(ThreadView, self).get_context_data(**kwargs)

@@ -48,3 +48,15 @@ class Reply(models.Model):
         verbose_name = 'Resposta'
         verbose_name_plural = "Respostas"
         ordering = ['-correct', 'updated_at'] # Booleans são organizados de negativo em positivo
+
+def post_save_reply(created, instance, **kwargs):
+    instance.thread.answers = instance.thread.thread_reply.count()
+    instance.thread.save()
+
+def post_delete_reply(instance, **kwargs):
+    instance.thread.answers = instance.thread.thread_reply.count()
+    instance.thread.save()
+
+models.signals.post_save.connect(post_save_reply, sender = Reply, dispatch_uid='post_save_reply')
+
+models.signals.post_delete.connect(post_delete_reply, sender = Reply, dispatch_uid='post_delete_reply')
