@@ -44,10 +44,20 @@
 				<a class="fright" href="#responder">Responder</a></h4>
 				{%for reply in object.thread_reply.all%}
 				<hr>
-				{%filter linebreaks%}
-				<strong>{% if reply.author %}{{reply.author}}{%else%}(Usuário desconhecido){%endif%} disse há {{reply.created_at|timesince}}</strong>
-				{{reply.reply}}
-				{%endfilter%}
+				<p>
+					<strong>{% if reply.author %}{{reply.author}}{%else%}(Usuário desconhecido){%endif%} disse há {{reply.created_at|timesince}}</strong>
+					{{reply.reply|linebreaksbr}}
+					{% if reply.correct %}
+						<br>
+						{% if object.user == user or reply.author == user %}
+						<a href="{% url 'forum:reply-incorrect' reply.pk %}" class="pure-button button-error">Cancelar resposta correta</a>
+						{% endif %}
+						<span class="fright label-sucess">Resposta indicada pelo autor</span>
+					{% elif object.user == user %}
+						<br>	
+						<a href="{% url 'forum:reply-correct' reply.pk %}" class="pure-button button-sucess">Indicar resposta correta</a>
+					{% endif %}
+				</p>
 				{%empty%}
 				<strong>Não há respostas para esse tópico</strong>
 				{%endfor%}

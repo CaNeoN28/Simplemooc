@@ -1,11 +1,11 @@
 from typing import Any
 from django.db.models import query
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView, View, ListView, DetailView
 from taggit.models import Tag
 
-from Simplemooc.forum.models import Thread
+from Simplemooc.forum.models import Reply, Thread
 from .forms import ReplyForm
 
 # Create your views here.
@@ -78,8 +78,20 @@ class ThreadView(DetailView):
 
         return render(request, 'forum/thread.html', context)
 
+class ReplyCorrectView(View):
+
+    correct = True
+    
+    def get(self, request, pk):
+        reply = get_object_or_404(Reply, pk = pk)
+        reply.correct = self.correct
+        reply.save()
+        return redirect(reply.thread.get_absolute_url())
+
 index = ForumView.as_view()
 thread = ThreadView.as_view()
+reply_correct = ReplyCorrectView.as_view()
+reply_incorrect = ReplyCorrectView.as_view(correct = False)
 
 def forumView(request, slug = None):
     template_name = 'forum/index.html'

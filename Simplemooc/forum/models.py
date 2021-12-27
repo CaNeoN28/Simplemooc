@@ -52,6 +52,9 @@ class Reply(models.Model):
 def post_save_reply(created, instance, **kwargs):
     instance.thread.answers = instance.thread.thread_reply.count()
     instance.thread.save()
+    if instance.correct:
+        instance.thread.thread_reply.exclude(pk = instance.pk).update(correct = False) # Atualiza sem chamar
+        #o método post_save novamente
 
 def post_delete_reply(instance, **kwargs):
     instance.thread.answers = instance.thread.thread_reply.count()
