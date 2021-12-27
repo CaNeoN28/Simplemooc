@@ -1,12 +1,15 @@
 from typing import Any
 from django.db.models import query
 from django.contrib import messages
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView, View, ListView, DetailView
 from taggit.models import Tag
 
 from Simplemooc.forum.models import Reply, Thread
 from .forms import ReplyForm
+
+import json
 
 # Create your views here.
 
@@ -86,7 +89,14 @@ class ReplyCorrectView(View):
         reply = get_object_or_404(Reply, pk = pk)
         reply.correct = self.correct
         reply.save()
-        return redirect(reply.thread.get_absolute_url())
+        message = "Resposta atualizada com sucesso"
+        if request.accepts("application/json"):
+            data = {'sucess' : True, 'message' : message}
+            return HttpResponse(json.dumps(data))
+        
+        else:
+            messages.success(request, message)
+            return redirect(reply.thread.get_absolute_url())
 
 index = ForumView.as_view()
 thread = ThreadView.as_view()

@@ -39,7 +39,7 @@
 					<a class="fright">Criado há {{object.created_at|timesince}}</a>
 				</p>
 			</div>
-			<div class="well">
+			<div class="well" id="div-comments">
 				<h4>Respostas /
 				<a class="fright" href="#responder">Responder</a></h4>
 				{%for reply in object.thread_reply.all%}
@@ -47,15 +47,17 @@
 				<p>
 					<strong>{% if reply.author %}{{reply.author}}{%else%}(Usuário desconhecido){%endif%} disse há {{reply.created_at|timesince}}</strong>
 					{{reply.reply|linebreaksbr}}
-					{% if reply.correct %}
+					{% if object.user == user %}
 						<br>
-						{% if object.user == user or reply.author == user %}
-						<a href="{% url 'forum:reply-incorrect' reply.pk %}" class="pure-button button-error">Cancelar resposta correta</a>
-						{% endif %}
-						<span class="fright label-sucess">Resposta indicada pelo autor</span>
-					{% elif object.user == user %}
-						<br>	
-						<a href="{% url 'forum:reply-correct' reply.pk %}" class="pure-button button-sucess">Indicar resposta correta</a>
+						<a href="{% url 'forum:reply-incorrect' reply.pk %}" class="pure-button button-error reply-cancel-correct-lnk {% if not reply.correct%} hidden {% endif %}">Cancelar resposta correta</a>
+
+						<a href="{% url 'forum:reply-correct' reply.pk %}" class="pure-button button-sucess reply-correct-lnk {% if reply.correct %} hidden {%endif%}%">Indicar resposta correta</a>
+
+						<span class="fright label-sucess correct-reply-msg {% if not reply.correct%} hidden {%endif%}"> Resposta indicada pelo autor </span>	
+					{% elif reply.correct %}
+						<br>
+						<span class="fright label-sucess"> Resposta indicada pelo autor </span>	
+						
 					{% endif %}
 				</p>
 				{%empty%}
@@ -81,3 +83,44 @@
 		</div>
 	</div>
 {%endblock%}
+{% block scripts %}
+<script type="text/javascript">
+	$(".reply-cancel-correct-lnk").click(function(e){
+		e.preventDefault()
+		var $this = $(this)
+		var $p = $this.closest("p")
+		$.get($this.attr('href'), function(data){
+			if (data.sucess){
+				$p.find(".correct-reply-msg".addClass('hidden'));
+				$this.addClass('hidden');
+				$p.find(".reply-correct-link".removeClass('hidden'));
+			}
+
+			else{
+				alert(data.message);
+			}
+		} , 'json');
+		return false;
+	});
+	$(".reply-cancel-correct-lnk").click(function(e){
+		e.preventDefault()
+		var $this = $(this)
+		var $p = $this.closest("p")
+		$.get($this.attr('href'), function(data){
+			if (data.sucess){
+				$("#div-comments .correct-reply-msg").addClass('hidden');
+				$("#div-comments .reply-cancel-correct-lnk").addClass('hidden');
+				$("#div-comments .reply-correct-lnk").removeClass('hidden');
+
+				$p.find(".correct-reply-msg".removeClass('hidden'))
+				$this.addClass('hidden')
+				$p.find(".reply-cancel-correct-lnk".removeClass('hidden'))
+			}
+			else{
+				alert(data.message);
+			}
+		}, 'json');
+		return false;
+	});
+</script>
+{% endblock %}
